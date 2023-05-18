@@ -1,0 +1,5 @@
+3dsinfofetch.3dsx
+3dsinfofetch.smdh
+3dsinfofetch.elf
+build/*
+.vscode/*
