@@ -23,8 +23,11 @@ include $(DEVKITARM)/3ds_rules
 # NO_SMDH: if set to anything, no SMDH file is generated.
 # ROMFS is the directory which contains the RomFS, relative to the Makefile (Optional)
 # APP_TITLE is the name of the app stored in the SMDH file (Optional)
+APP_TITLE = :3dsscreenfetch
 # APP_DESCRIPTION is the description of the app stored in the SMDH file (Optional)
+APP_DESCRIPTION := Displays system info on-screen
 # APP_AUTHOR is the author of the app stored in the SMDH file (Optional)
+APP_AUTHOR := Gruetzig
 # ICON is the filename of the icon (.png), relative to the project folder.
 #   If not set, it attempts to use one of the following (in this order):
 #     - <Project name>.png
