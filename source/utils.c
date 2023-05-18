@@ -147,12 +147,20 @@ int getClockRateMode() {
 }
 
 void getUsernameFromCfgSavegame(char* out) {
-    char username[0x1C];
+    /*u8 username[0x1C+1];
     u16 _username[0x1C];
     CFGU_GetConfigInfoBlk2(0x1C, 0x000A0000, _username);
-	utf16_to_utf8((u8*)username, _username, 0x1C);
-    username[0x1C-1] = '\0';
-    sprintf(out, "%s", username);
+	utf16_to_utf8(username, _username, 0x1C);
+    username[0x1C] = '\0';
+    sprintf(out, "%x", username[5]);*/
+
+    char username_tmp[0x1C];
+	CFGU_GetConfigInfoBlk2(0x1C, 0xA0000, (u8*)&username_tmp);
+    int i;
+	for (i = 0; i < 0x0E; i++){
+		out[i] = username_tmp[i<<1];
+	}
+    out[i] = '\0';
 }
 
 void getSystemLanguage(char* out) {
@@ -222,4 +230,8 @@ void getShortNameFromModel(u8 model, char* out) {
     else {
         sprintf(out, "unknown");
     }
+}
+
+void getLumaVersion() {
+
 }
