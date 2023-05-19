@@ -14,3 +14,4 @@ int getClockRateMode();
 void getUsernameFromCfgSavegame(char* out);
 void getSystemLanguage(char* out);
 void getShortNameFromModel(u8 model, char* out);
+void getLumaVersion(char* out);

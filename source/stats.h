@@ -15,6 +15,7 @@ typedef struct {
     char language[20];
     char cpu[40];
     char resolution[20];
+    char lumaversion[10];
     u8 modelnumber;
 } StatsContext;
 

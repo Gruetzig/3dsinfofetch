@@ -232,6 +232,13 @@ void getShortNameFromModel(u8 model, char* out) {
     }
 }
 
-void getLumaVersion() {
-
+void getLumaVersion(char* out) {
+    s64 outInfo;
+    svcGetSystemInfo(&outInfo, 0x10000, 0);
+    u32 lumaversion = (u32)outInfo;
+    int ma = GET_VERSION_MAJOR(lumaversion);
+    int mi = GET_VERSION_MINOR(lumaversion);
+    int rev = GET_VERSION_REVISION(lumaversion);
+    sprintf(out, "%d.%d.%d", ma, mi, rev);
 }
+

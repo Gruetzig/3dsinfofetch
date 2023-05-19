@@ -35,4 +35,5 @@ void updateStats(StatsContext* stx) {
     getKernelVersion(stx->kernelversion);
     getUsernameFromCfgSavegame(stx->username);
     getSystemLanguage(stx->language);
+    getLumaVersion(stx->lumaversion);
 }
