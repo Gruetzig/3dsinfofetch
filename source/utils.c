@@ -57,7 +57,7 @@ void getSDFreeSize(char* outputstring) {
     getSizeString(outputstring, size);
 }
 
-int dateTimeToString(char *out, u64 msSince1900, bool date) //thanks luma3ds
+int dateTimeToString(char *out, u64 msSince1900) //thanks luma3ds
 {
     // Conversion code adapted from https://stackoverflow.com/questions/21593692/convert-unix-timestamp-to-date-without-system-libs
     // (original author @gnif under CC-BY-SA 4.0)
@@ -71,7 +71,6 @@ int dateTimeToString(char *out, u64 msSince1900, bool date) //thanks luma3ds
     minutes %= 60;
     days = hours / 24;
     hours %= 24;
-    if (date) {
     year = 1900; // osGetTime starts in 1900
 
     while(true)
@@ -104,22 +103,29 @@ int dateTimeToString(char *out, u64 msSince1900, bool date) //thanks luma3ds
     days++;
     month++;
     return sprintf(out, "%04lu-%02lu-%02lu %02lu:%02lu:%02lu", year, month, days, hours, minutes, seconds);
-    }
-    else {
-        return sprintf(out, "%02lu:%02lu:%02lu", hours, minutes, seconds);
-    }
 }
 
 void getTime(char* outputstring) {
     u64 timeNow = osGetTime();
-    dateTimeToString(outputstring, timeNow, true);
+    dateTimeToString(outputstring, timeNow);
 }
 
 void getRunTime(char* runtime) {
     u64 timeNow = osGetTime();
     u64 timeAtBoot = timeNow - (1000 * svcGetSystemTick() / SYSCLOCK_ARM11);
     u64 runtimems = timeNow - timeAtBoot;
-    dateTimeToString(runtime, runtimems, false);
+    u32 seconds = runtimems / 1000;
+    u32 minutes = seconds / 60;
+    seconds %= 60;
+    u32 hours = minutes / 60;
+    minutes %= 60;
+    u32 days = hours / 24;
+    hours %= 24;
+    if (days < 1) {
+        sprintf(runtime, "%02lu:%02lu:%02lu", hours, minutes, seconds);
+    } else {
+        sprintf(runtime, "%02lu days, %02lu:%02lu:%02lu", days, hours, minutes, seconds);
+    }
 }
 
 int getBatteryLevel() {
@@ -239,6 +245,10 @@ void getLumaVersion(char* out) {
     int ma = GET_VERSION_MAJOR(lumaversion);
     int mi = GET_VERSION_MINOR(lumaversion);
     int rev = GET_VERSION_REVISION(lumaversion);
-    sprintf(out, "%d.%d.%d", ma, mi, rev);
+    if (rev > 0) {
+        sprintf(out, "%d.%d.%d", ma, mi, rev);
+    }else {
+        sprintf(out, "%d.%d", ma, mi);
+    }
 }
 
